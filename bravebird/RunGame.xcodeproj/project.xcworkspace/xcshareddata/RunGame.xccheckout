@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2C7572D7-0C27-4E56-A691-C51E9D50B456</string>
+	<key>IDESourceControlProjectName</key>
+	<string>RunGame</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>8E6AFAB2-91C2-4B43-AB82-F6637A6F75B5</key>
+		<string>https://github.com/xuzepei/rungame_bird.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>bravebird2_1.0/RunGame.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>8E6AFAB2-91C2-4B43-AB82-F6637A6F75B5</key>
+		<string>../../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/xuzepei/rungame_bird.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>8E6AFAB2-91C2-4B43-AB82-F6637A6F75B5</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>8E6AFAB2-91C2-4B43-AB82-F6637A6F75B5</string>
+			<key>IDESourceControlWCCName</key>
+			<string>rungame_bird_git</string>
+		</dict>
+	</array>
+</dict>
+</plist>

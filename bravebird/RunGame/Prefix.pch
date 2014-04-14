@@ -1,0 +1,187 @@
+//
+// Prefix header for all source files of the 'Test' target in the 'Test' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iPhone SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+#import <UIKit/UIKit.h>
+#import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
+#import "RCTool.h"
+#import "cocos2d.h"
+#endif
+
+#define TIME_OUT 20
+
+#define CT_UNKNOWN 0
+#define CT_XML 1
+#define CT_JSON 2
+
+#define LOG_HERE CCLOG(@"%@: %@",NSStringFromSelector(_cmd),self)
+#define WIN_SIZE [[CCDirector sharedDirector] winSize]
+#define DIRECTOR [CCDirector sharedDirector]
+#define PTM_RATIO 32.0
+#define LEADERBOARD_SCORES_ID @"com.bravebird.highscores"
+#define LEADERBOARD_PLAYTIMES_ID @""
+#define LEADERBOARD_GOLDCOINNUM_ID @""
+#define APP_URL @"https://itunes.apple.com/app/brave-bird-2-flap-again/id845147126?mt=8"
+#define APP_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey]
+
+//管道位置限制
+#define PIPE_INTERVAL 130.0f
+#define PIPE_TOPBOTTOM_INTERVAL 105.0f
+#define PIPE_MIN_HEIGHT 75.0f
+#define FLOOR_HEIGHT 80.0f
+
+//for iPad_mini
+#define PIPE_INTERVAL_IPAD_MINI 260.0f
+#define PIPE_TOPBOTTOM_INTERVAL_IPAD_MINI 105.0f*2
+#define PIPE_MIN_HEIGHT_IPAD_MINI 75.0f*1.8
+#define FLOOR_HEIGHT_IPAD_MINI 80.0f*1.8
+
+//场景类型
+typedef enum
+{
+    ST_UNKNOWN = 0,
+    ST_HOME,
+    ST_BEATMOLE,
+}SCENE_TYPE;
+
+//分享类型
+typedef enum{
+    SHT_UNKNOWN = -1,
+    SHT_MESSAGE,
+    SHT_EMAIL,
+    SHT_QQ,
+    SHT_SINA
+}SHARE_TYPE;
+
+//标识
+typedef enum{
+    T_UNKNOWN = 0,
+    T_HOMEMENU_ACHIEVEMENT,
+    T_HOMEMENU_LEADERBOARD,
+    T_HOMEMENU_START,
+    T_HOMEMENU_ABOUT,
+    T_HOMEMENU_SETTING,
+    T_PAUSE_LAYER,
+    T_PAUSE_BUTTON,
+    T_PIPE_0,
+    T_PIPE_1,
+    T_PIPE_2,
+    T_PIPE_3,
+    T_PIPE_4,
+    T_PIPE_5,
+    T_PIPE_6,
+    T_PIPE_7,
+    T_COIN_0,
+    T_COIN_1,
+    T_COIN_2,
+    T_COIN_3,
+    T_PIPE_X,
+}TAG;
+
+//记录类型
+typedef enum{
+    RT_UNKNOWN = -1,
+    RT_SCORE,
+    RT_BEST,
+    RT_COIN,
+    RT_PLAYTIMES,
+}RECORD_TYPE;
+
+//成就类型
+typedef enum{
+    AT_UNKNOWN = -1,
+    AT_ESCAPE,
+    AT_SHOOTER,
+    AT_MARATHON,
+    AT_CAKE,
+    AT_KUNGFU,
+    AT_MILLIONAIRE,
+}ACHIEVEMENT_TYPE;
+
+//随机类型
+typedef enum{
+    RDM_BG,
+    RDM_PIPE,
+    RDM_DUCK,
+    RDM_ANGRY_PIPE,
+    RDM_LAND,
+}RANDOM_TYPE;
+
+//GameCenter对战数据包结构
+typedef struct
+{
+    int type;
+    int count;
+    float a[200];
+}DataPacket;
+
+//包消息类型
+typedef enum{
+    PMT_UNKNOWN = -1,
+    PMT_READY,
+    PMT_TAP,
+    PMT_LOSE,
+    PMT_PIPES,
+    PMT_ROLE,
+}PACKET_MESSAGE_TYPE;
+
+#define ENCRYPT_PASSWORD @"!wf23rwer@"
+#define ENCRYPT_PASSWORD_FOR_COIN @"!234234!#@!@"
+#define ENCRYPT_PASSWORD_FOR_PLAYTIMES @"!5646!^%&!@"
+
+//背景滚动速度
+#define SCROLL_SPEED 2.0f
+
+//状态栏高度
+#define STATUS_BAR_HEIGHT 20.0
+
+//系统版本
+#define SYSTEM_VERSION [[[UIDevice currentDevice] systemVersion] floatValue]
+
+//声音文件
+#define MUSIC_COIN @"coin.aif"
+#define MUSIC_HIT @"hit.caf"
+#define MUSIC_SWOOSH @"swoosh.caf"
+#define MUSIC_DROP @"drop.caf"
+#define MUSIC_FLAP @"flap.caf"
+#define MUSIC_FART @"fart.wav"
+
+//定义通知
+#define GAMEOVER_NOTIFICATION @"GAMEOVER_NOTIFICATION"
+#define MYSCORE_NOTIFICATION @"MYSCORE_NOTIFICATION"
+
+#define STARTMATCH_NOTIFICATION @"STARTMATCH_NOTIFICATION"
+#define RECEIVED_DATA_NOTIFICATION @"RECEIVED_DATA_NOTIFICATION"
+
+//广告ID
+#define AD_BANNER_ID @""
+#define AD_SCREEN_ID @""
+
+//去除广告
+#define REMOVE_AD_ID @"com.bravebird.removeads"
+
+//UMeng 设置
+#define UMENG_APP_KEY @""
+#define PLAY_EVENT @"play_button"
+#define SCORE_EVENT @"score_button"
+#define RATE_EVENT @"rate_button"
+#define RANK_EVENT @"rank_button"
+#define SHARE_EVENT @"share_button"
+#define FIND_MATCH_EVENT @"match_button"
+#define START_MATCH_EVENT @"start_match"
+#define ADMOD_FAILED_EVENT @"admob_failed"
+#define IAD_FAILED_EVENT @"iad_failed"
+
+
+#define PURCHASE_TAG 301
+
+
+
