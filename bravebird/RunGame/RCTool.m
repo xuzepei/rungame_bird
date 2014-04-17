@@ -851,6 +851,9 @@
 
 + (void)showAd:(BOOL)b
 {
+    [[NSUserDefaults standardUserDefaults] setBool:b forKey:@"show_ad"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
     AppController* appDelegate =(AppController*)[UIApplication sharedApplication].delegate;
     if(appDelegate.adMobAd && appDelegate.adMobAd.superview)
     {
@@ -860,8 +863,8 @@
                 return;
             
             CGRect temp = appDelegate.adMobAd.frame;
-            if(temp.origin.y == [RCTool getScreenSize].height - appDelegate.adMobAd.frame.size.height)
-                return;
+//            if(temp.origin.y == [RCTool getScreenSize].height - appDelegate.adMobAd.frame.size.height)
+//                return;
             
             [UIView animateWithDuration:0.3 animations:^{
                 CGRect rect = appDelegate.adMobAd.frame;
@@ -873,17 +876,17 @@
         }
         else
         {
-//            CGRect temp = appDelegate.adMobAd.frame;
+            CGRect temp = appDelegate.adMobAd.frame;
 //            if(temp.origin.y == [RCTool getScreenSize].height)
 //                return;
-//            
-//            [UIView animateWithDuration:0.3 animations:^{
-//                CGRect rect = appDelegate.adMobAd.frame;
-//                rect.origin.y = [RCTool getScreenSize].height;
-//                appDelegate.adMobAd.frame = rect;
-//            }completion:^(BOOL finished) {
-//                appDelegate.isAdMobVisible = NO;
-//            }];
+            
+            [UIView animateWithDuration:0.3 animations:^{
+                CGRect rect = appDelegate.adMobAd.frame;
+                rect.origin.y = 0 - rect.size.height;
+                appDelegate.adMobAd.frame = rect;
+            }completion:^(BOOL finished) {
+                appDelegate.isAdMobVisible = NO;
+            }];
         }
     }
     
@@ -1067,6 +1070,76 @@
     }
 
     return array;
+}
+
+#pragma mark - 获取角色状态
+/*
+ 返回值: -1 未购买；0 未使用；1 使用中
+ */
++ (int)getBirdStatusByType:(int)type
+{
+    NSString* bird_status_key = [NSString stringWithFormat:@"bird_status_%d",type];
+    NSNumber* statusNum = [[NSUserDefaults standardUserDefaults] objectForKey:bird_status_key];
+    if(statusNum)
+    {
+        return [statusNum intValue];
+    }
+    else if(0 == type)
+    {
+        return 1;
+    }
+    
+    return -1;
+}
+
++ (void)setBirdStatus:(int)status type:(int)type
+{
+    NSString* bird_status_key = [NSString stringWithFormat:@"bird_status_%d",type];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:status] forKey:bird_status_key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (int)getWorldStatusByType:(int)type
+{
+    NSString* world_status_key = [NSString stringWithFormat:@"world_status_%d",type];
+    NSNumber* statusNum = [[NSUserDefaults standardUserDefaults] objectForKey:world_status_key];
+    if(statusNum)
+    {
+        return [statusNum intValue];
+    }
+    else if(0 == type)
+    {
+        return 1;
+    }
+    
+    return -1;
+}
+
++ (void)setWorldStatus:(int)status type:(int)type
+{
+    NSString* world_status_key = [NSString stringWithFormat:@"world_status_%d",type];
+    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithInt:status] forKey:world_status_key];
+    [[NSUserDefaults standardUserDefaults] synchronize];
+}
+
++ (NSDictionary*)getBirdInfo:(int)type
+{
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"bird" ofType:@"plist"];
+    NSArray* array = [NSArray arrayWithContentsOfFile:path];
+    if(type < [array count])
+        return [array objectAtIndex:type];
+    
+    return nil;
+}
+
++ (NSDictionary*)getWorldInfo:(int)type
+{
+    NSString* path = [[NSBundle mainBundle] pathForResource:@"world" ofType:@"plist"];
+    NSArray* array = [NSArray arrayWithContentsOfFile:path];
+    if(type < [array count])
+        return [array objectAtIndex:type];
+    
+    return nil;
 }
 
 @end

@@ -7,10 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		09073B1618FFA77300ECA0FF /* RCShopWorldItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 09073B1518FFA77300ECA0FF /* RCShopWorldItem.m */; };
+		09073B1818FFAF1A00ECA0FF /* bird.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09073B1718FFAF1A00ECA0FF /* bird.plist */; };
+		09073B1A18FFB0AC00ECA0FF /* world.plist in Resources */ = {isa = PBXBuildFile; fileRef = 09073B1918FFB0AC00ECA0FF /* world.plist */; };
 		090C5A7F18C83E8D00116751 /* RCRank.m in Sources */ = {isa = PBXBuildFile; fileRef = 090C5A7E18C83E8D00116751 /* RCRank.m */; };
 		09185C0118FB781600511FBF /* images_block.png in Resources */ = {isa = PBXBuildFile; fileRef = 09185C0018FB781600511FBF /* images_block.png */; };
-		09185CD718FBD81300511FBF /* CCGestureRecognizer.m in Sources */ = {isa = PBXBuildFile; fileRef = 09185CD618FBD81300511FBF /* CCGestureRecognizer.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		09185CDA18FBDD0D00511FBF /* RCShopLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 09185CD918FBDD0D00511FBF /* RCShopLayer.m */; };
+		0919AEC718FE1DAF005A3983 /* CCItemsScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 0919AEC418FE1DAF005A3983 /* CCItemsScroller.m */; };
+		0919AEC818FE1DAF005A3983 /* CCSelectableItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0919AEC618FE1DAF005A3983 /* CCSelectableItem.m */; };
+		0919AECE18FE5EF8005A3983 /* RCShopBirdItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 0919AECD18FE5EF8005A3983 /* RCShopBirdItem.m */; };
 		091A169A18E917F500E578BB /* AppRecord.m in Sources */ = {isa = PBXBuildFile; fileRef = 091A169918E917F500E578BB /* AppRecord.m */; };
 		092C34F918D2DBEF00D87AEB /* RCMatchDuck.m in Sources */ = {isa = PBXBuildFile; fileRef = 092C34F818D2DBEF00D87AEB /* RCMatchDuck.m */; };
 		0940B18F17E5E27C0079C108 /* RCGameSceneParallaxBackground.m in Sources */ = {isa = PBXBuildFile; fileRef = 0940B18E17E5E27C0079C108 /* RCGameSceneParallaxBackground.m */; };
@@ -26,6 +31,7 @@
 		09741A7518CF3DF500FA2C9C /* RCMatchGameScene.mm in Sources */ = {isa = PBXBuildFile; fileRef = 09741A7418CF3DF500FA2C9C /* RCMatchGameScene.mm */; };
 		0978045E18C3641200870077 /* RCCoin.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978045D18C3641200870077 /* RCCoin.m */; };
 		0978EA391805016800A810FE /* RCAchievementLayer.m in Sources */ = {isa = PBXBuildFile; fileRef = 0978EA381805016800A810FE /* RCAchievementLayer.m */; };
+		0985835618FD329000F7413D /* RCMenuItemSprite2.m in Sources */ = {isa = PBXBuildFile; fileRef = 0985835518FD329000F7413D /* RCMenuItemSprite2.m */; };
 		098AC090189EB13E008B8527 /* RCDuck.mm in Sources */ = {isa = PBXBuildFile; fileRef = 098AC08F189EB13E008B8527 /* RCDuck.mm */; };
 		098EB2A018D17A1100D8A894 /* iAd.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 098EB29F18D17A1100D8A894 /* iAd.framework */; };
 		0996F56317E85A0200F21122 /* MyContactListener.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0996F56217E85A0200F21122 /* MyContactListener.mm */; };
@@ -234,13 +240,21 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		09073B1418FFA77300ECA0FF /* RCShopWorldItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCShopWorldItem.h; sourceTree = "<group>"; };
+		09073B1518FFA77300ECA0FF /* RCShopWorldItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCShopWorldItem.m; sourceTree = "<group>"; };
+		09073B1718FFAF1A00ECA0FF /* bird.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = bird.plist; sourceTree = "<group>"; };
+		09073B1918FFB0AC00ECA0FF /* world.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = world.plist; sourceTree = "<group>"; };
 		090C5A7D18C83E8D00116751 /* RCRank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCRank.h; sourceTree = "<group>"; };
 		090C5A7E18C83E8D00116751 /* RCRank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCRank.m; sourceTree = "<group>"; };
 		09185C0018FB781600511FBF /* images_block.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = images_block.png; sourceTree = "<group>"; };
-		09185CD518FBD81300511FBF /* CCGestureRecognizer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCGestureRecognizer.h; sourceTree = "<group>"; };
-		09185CD618FBD81300511FBF /* CCGestureRecognizer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCGestureRecognizer.m; sourceTree = "<group>"; };
 		09185CD818FBDD0D00511FBF /* RCShopLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCShopLayer.h; sourceTree = "<group>"; };
 		09185CD918FBDD0D00511FBF /* RCShopLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCShopLayer.m; sourceTree = "<group>"; };
+		0919AEC318FE1DAF005A3983 /* CCItemsScroller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCItemsScroller.h; sourceTree = "<group>"; };
+		0919AEC418FE1DAF005A3983 /* CCItemsScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCItemsScroller.m; sourceTree = "<group>"; };
+		0919AEC518FE1DAF005A3983 /* CCSelectableItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CCSelectableItem.h; sourceTree = "<group>"; };
+		0919AEC618FE1DAF005A3983 /* CCSelectableItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CCSelectableItem.m; sourceTree = "<group>"; };
+		0919AECC18FE5EF8005A3983 /* RCShopBirdItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCShopBirdItem.h; sourceTree = "<group>"; };
+		0919AECD18FE5EF8005A3983 /* RCShopBirdItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCShopBirdItem.m; sourceTree = "<group>"; };
 		091A169818E917F500E578BB /* AppRecord.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AppRecord.h; sourceTree = "<group>"; };
 		091A169918E917F500E578BB /* AppRecord.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AppRecord.m; sourceTree = "<group>"; };
 		092C34F718D2DBEF00D87AEB /* RCMatchDuck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMatchDuck.h; sourceTree = "<group>"; };
@@ -270,6 +284,8 @@
 		0978045D18C3641200870077 /* RCCoin.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCCoin.m; sourceTree = "<group>"; };
 		0978EA371805016800A810FE /* RCAchievementLayer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCAchievementLayer.h; sourceTree = "<group>"; };
 		0978EA381805016800A810FE /* RCAchievementLayer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCAchievementLayer.m; sourceTree = "<group>"; };
+		0985835418FD329000F7413D /* RCMenuItemSprite2.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCMenuItemSprite2.h; sourceTree = "<group>"; };
+		0985835518FD329000F7413D /* RCMenuItemSprite2.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RCMenuItemSprite2.m; sourceTree = "<group>"; };
 		098AC08E189EB13E008B8527 /* RCDuck.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RCDuck.h; sourceTree = "<group>"; };
 		098AC08F189EB13E008B8527 /* RCDuck.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RCDuck.mm; sourceTree = "<group>"; };
 		098EB29F18D17A1100D8A894 /* iAd.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = iAd.framework; path = System/Library/Frameworks/iAd.framework; sourceTree = SDKROOT; };
@@ -724,8 +740,10 @@
 		09185CCF18FBD3B000511FBF /* CCScrollLayer */ = {
 			isa = PBXGroup;
 			children = (
-				09185CD518FBD81300511FBF /* CCGestureRecognizer.h */,
-				09185CD618FBD81300511FBF /* CCGestureRecognizer.m */,
+				0919AEC318FE1DAF005A3983 /* CCItemsScroller.h */,
+				0919AEC418FE1DAF005A3983 /* CCItemsScroller.m */,
+				0919AEC518FE1DAF005A3983 /* CCSelectableItem.h */,
+				0919AEC618FE1DAF005A3983 /* CCSelectableItem.m */,
 			);
 			path = CCScrollLayer;
 			sourceTree = "<group>";
@@ -865,6 +883,8 @@
 		09FAE39017E2BCB500E46F76 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				09073B1918FFB0AC00ECA0FF /* world.plist */,
+				09073B1718FFAF1A00ECA0FF /* bird.plist */,
 				09F816AD18C9CFF1006B36F8 /* font */,
 				09FAE6E417E30A0D00E46F76 /* audio */,
 				09FAE6E517E30A0D00E46F76 /* images */,
@@ -1410,10 +1430,16 @@
 				0978EA381805016800A810FE /* RCAchievementLayer.m */,
 				09B9FAB8189F66C000513479 /* RCMenuItemSprite.h */,
 				09B9FAB9189F66C000513479 /* RCMenuItemSprite.m */,
+				0985835418FD329000F7413D /* RCMenuItemSprite2.h */,
+				0985835518FD329000F7413D /* RCMenuItemSprite2.m */,
 				090C5A7D18C83E8D00116751 /* RCRank.h */,
 				090C5A7E18C83E8D00116751 /* RCRank.m */,
 				09185CD818FBDD0D00511FBF /* RCShopLayer.h */,
 				09185CD918FBDD0D00511FBF /* RCShopLayer.m */,
+				0919AECC18FE5EF8005A3983 /* RCShopBirdItem.h */,
+				0919AECD18FE5EF8005A3983 /* RCShopBirdItem.m */,
+				09073B1418FFA77300ECA0FF /* RCShopWorldItem.h */,
+				09073B1518FFA77300ECA0FF /* RCShopWorldItem.m */,
 			);
 			name = Home;
 			sourceTree = "<group>";
@@ -1546,6 +1572,7 @@
 				09C25C8218A4BB8600991E33 /* flap.caf in Resources */,
 				09ECA17C18CAB9F5000FDCF0 /* Images.xcassets in Resources */,
 				09FAE39A17E2BCB500E46F76 /* fps_images-ipadhd.png in Resources */,
+				09073B1818FFAF1A00ECA0FF /* bird.plist in Resources */,
 				09C25C8418A4BB8600991E33 /* drop.caf in Resources */,
 				09C25C8518A4BB8600991E33 /* swoosh.caf in Resources */,
 				09F1F39818A5DB9600114617 /* small_number.png in Resources */,
@@ -1555,6 +1582,7 @@
 				0969DA7318A616470000D48A /* README.md in Resources */,
 				09FAE4E717E2BCB700E46F76 /* ChangeLog in Resources */,
 				09FAE5AA17E2BCB900E46F76 /* blocks.png in Resources */,
+				09073B1A18FFB0AC00ECA0FF /* world.plist in Resources */,
 				09ADE69518A0BF3A005EF12A /* large_number.png in Resources */,
 				099BA0C618F2CAAE004DE47A /* README.txt in Resources */,
 				09185C0118FB781600511FBF /* images_block.png in Resources */,
@@ -1570,12 +1598,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0985835618FD329000F7413D /* RCMenuItemSprite2.m in Sources */,
 				09FAE6D017E2F25600E46F76 /* RCHomeScene.mm in Sources */,
 				09FAE5F217E2EDDC00E46F76 /* CCAnimation+Helper.m in Sources */,
 				09FAE5F317E2EDDC00E46F76 /* CCLayer+CCLayer_Opaque.m in Sources */,
 				09FAE5F417E2EDDC00E46F76 /* RCLoadingLayer.m in Sources */,
 				09FAE5F517E2EDDC00E46F76 /* RCNavigationController.m in Sources */,
 				09FAE5D117E2EC3D00E46F76 /* GCHelper.m in Sources */,
+				09073B1618FFA77300ECA0FF /* RCShopWorldItem.m in Sources */,
 				09FAE5D217E2EC3D00E46F76 /* GKMatchmakerViewController+LandscapeOnly.m in Sources */,
 				0967BA6917EB4A7100414B71 /* RCBox2dMoveTo.mm in Sources */,
 				09FAE3AE17E2BCB500E46F76 /* CCAction.m in Sources */,
@@ -1593,6 +1623,7 @@
 				09FAE3CF17E2BCB500E46F76 /* CCActionTiledGrid.m in Sources */,
 				09FAE3D217E2BCB500E46F76 /* CCActionTween.m in Sources */,
 				09FAE3D517E2BCB500E46F76 /* CCAnimation.m in Sources */,
+				0919AECE18FE5EF8005A3983 /* RCShopBirdItem.m in Sources */,
 				0978EA391805016800A810FE /* RCAchievementLayer.m in Sources */,
 				09FAE3D817E2BCB500E46F76 /* CCAnimationCache.m in Sources */,
 				09FAE3DB17E2BCB500E46F76 /* CCAtlasNode.m in Sources */,
@@ -1645,14 +1676,15 @@
 				09FAE46F17E2BCB600E46F76 /* CCTransitionPageTurn.m in Sources */,
 				09FAE47217E2BCB600E46F76 /* CCTransitionProgress.m in Sources */,
 				09FAE47617E2BCB600E46F76 /* cocos2d.m in Sources */,
+				0919AEC818FE1DAF005A3983 /* CCSelectableItem.m in Sources */,
 				09FAE47D17E2BCB600E46F76 /* CCDirectorIOS.m in Sources */,
 				09FAE48017E2BCB600E46F76 /* CCES2Renderer.m in Sources */,
 				09B9FABA189F66C000513479 /* RCMenuItemSprite.m in Sources */,
 				09FAE48417E2BCB600E46F76 /* CCGLView.m in Sources */,
 				092C34F918D2DBEF00D87AEB /* RCMatchDuck.m in Sources */,
 				0964484A17F3E46B009FD9AC /* RCResultLayer.m in Sources */,
+				0919AEC718FE1DAF005A3983 /* CCItemsScroller.m in Sources */,
 				09FAE48817E2BCB600E46F76 /* CCTouchDispatcher.m in Sources */,
-				09185CD718FBD81300511FBF /* CCGestureRecognizer.m in Sources */,
 				09FAE48B17E2BCB700E46F76 /* CCTouchHandler.m in Sources */,
 				09FAE48F17E2BCB700E46F76 /* CCDirectorMac.m in Sources */,
 				09FAE49217E2BCB700E46F76 /* CCEventDispatcher.m in Sources */,

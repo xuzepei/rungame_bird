@@ -33,6 +33,7 @@
 @property(nonatomic,retain)RCLabelAtlas* coinLabel;
 @property(assign)long gc_rank;
 @property(nonatomic,retain)RCRank* rankSprite;
+@property(assign)BOOL isOpenShop;
 
 
 

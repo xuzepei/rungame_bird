@@ -427,7 +427,17 @@ static NSString *kSureStr = @"sureTitle";
         _adMobAd.alpha = 1.0;
         CGRect rect = _adMobAd.frame;
         rect.origin.x = ([RCTool getScreenSize].width - rect.size.width)/2.0;
-        rect.origin.y = 0;
+        
+        BOOL b = [[NSUserDefaults standardUserDefaults] boolForKey:@"show_ad"];
+        if(b)
+        {
+            rect.origin.y = 0;
+        }
+        else
+        {
+            rect.origin.y = 0 - rect.size.height;
+        }
+
         _adMobAd.frame = rect;
         
         [[RCTool getRootNavigationController].topViewController.view addSubview: _adMobAd];

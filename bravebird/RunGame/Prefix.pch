@@ -44,6 +44,9 @@
 #define PIPE_MIN_HEIGHT_IPAD_MINI 75.0f*1.8
 #define FLOOR_HEIGHT_IPAD_MINI 80.0f*1.8
 
+//非当前选择页的不透明度
+#define NOT_CURRENT_PAGE_OPACITY 0
+
 //场景类型
 typedef enum
 {
@@ -70,6 +73,7 @@ typedef enum{
     T_HOMEMENU_ABOUT,
     T_HOMEMENU_SETTING,
     T_PAUSE_LAYER,
+    T_SHOP_LAYER,
     T_PAUSE_BUTTON,
     T_PIPE_0,
     T_PIPE_1,
@@ -161,6 +165,8 @@ typedef enum{
 #define STARTMATCH_NOTIFICATION @"STARTMATCH_NOTIFICATION"
 #define RECEIVED_DATA_NOTIFICATION @"RECEIVED_DATA_NOTIFICATION"
 
+#define BUTTON_STATUS_CHANGE_NOTIFICATION @"BUTTON_STATUS_CHANGE_NOTIFICATION"
+
 //广告ID
 #define AD_BANNER_ID @""
 #define AD_SCREEN_ID @""
@@ -182,6 +188,8 @@ typedef enum{
 
 
 #define PURCHASE_TAG 301
+
+#define BIRDS_NUM 5
 
 
 

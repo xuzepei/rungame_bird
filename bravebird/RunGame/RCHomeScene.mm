@@ -14,6 +14,7 @@
 #import "RCMatchGameScene.h"
 #import "RCNavigationController.h"
 #import "AppDelegate.h"
+#import "RCShopLayer.h"
 
 
 
@@ -63,7 +64,7 @@ static RCHomeScene* sharedInstance = nil;
         
         [RCTool preloadEffectSound:MUSIC_SWOOSH];
         
-        [self schedule:@selector(showAd:) interval:2.0];
+        [RCTool showAd:YES];
         
         [self updatePlayerInfo];
         
@@ -97,14 +98,7 @@ static RCHomeScene* sharedInstance = nil;
     
     sharedInstance = nil;
     
-
-    
     [super dealloc];
-}
-
-- (void)showAd:(ccTime)dt
-{
-    [RCTool showAd:YES];
 }
 
 - (void)initButtons
@@ -130,10 +124,12 @@ static RCHomeScene* sharedInstance = nil;
     [self addChild:self.scoreButton z:10];
     
     {
-        sprite = [CCSprite spriteWithSpriteFrameName:@"rate_button.png"];
-        menuItem = [RCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedRemoveAdButton:)];
+        sprite = [CCSprite spriteWithSpriteFrameName:@"shop_button.png"];
+        menuItem = [RCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedShopButton:)];
         if([RCTool isIpad] && NO == [RCTool isIpadMini])
-            menuItem.scale = 1.8;
+            menuItem.scale = 1.3;
+        else
+            menuItem.scale = 0.7;
         self.rateButton = [CCMenu menuWithItems:menuItem,nil];
         self.rateButton.position = ccp(WIN_SIZE.width/2, [RCTool getValueByHeightScale:176]);
         
@@ -145,12 +141,12 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedStartButton:(id)sender
 {
-    //[RCTool getRootNavigationController].topViewController.canDisplayBannerAds = NO;
+    if(self.isOpenShop)
+        return;
     
     [RCTool sendStatisticInfo:PLAY_EVENT];
     
     [self unschedule:@selector(showAd:)];
-    [RCTool showAd:NO];
     
     [RCTool addPlayTimes];
     
@@ -163,6 +159,9 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedScoreButton:(id)sender
 {
+    if(self.isOpenShop)
+        return;
+    
     [RCTool sendStatisticInfo:SCORE_EVENT];
     
     CCLOG(@"clickedScoreButton");
@@ -174,12 +173,8 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedRemoveAdButton:(id)sender
 {
-//    [RCTool sendStatisticInfo:RANK_EVENT];
-//
-//    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:APP_URL]];
-
-//    [[GCHelper sharedInstance] findMatchWithMinPlayers:2 maxPlayers:2 viewController:(UIViewController*)[RCTool getRootNavigationController] delegate:[RCTool getAppDelegate]];
-    
+    if(self.isOpenShop)
+        return;
     
     UIActionSheet *actionSheet = [[[UIActionSheet alloc] initWithTitle:@"Remove Advertisement"
                                                               delegate:self
@@ -196,6 +191,9 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedRankButton:(id)sender
 {
+    if(self.isOpenShop)
+        return;
+    
     [RCTool sendStatisticInfo:RANK_EVENT];
     
     //[self showGameCenter];
@@ -204,29 +202,32 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedShopButton:(id)sender
 {
-    //[self showAllButton:NO];
+    [RCTool showAd:NO];
     
-//    RCStoreLayer* layer = [[[RCStoreLayer alloc] init] autorelease];
-//    layer.delegate = self;
-//    [self addChild:layer z:100];
+    self.isOpenShop = YES;
+    
+    RCShopLayer* shopLayer = [[[RCShopLayer alloc] init] autorelease];
+    shopLayer.delegate = self;
+    shopLayer.tag = T_SHOP_LAYER;
+    [self addChild:shopLayer z:100];
 }
 
 - (void)clickedHelpButton:(id)sender
 {
+    if(self.isOpenShop)
+        return;
 }
 
 - (void)clickedSettingButton:(id)sender
 {
-//    RCSettingsViewController* temp = [[RCSettingsViewController alloc] initWithNibName:nil bundle:nil];
-//    
-//    [[RCTool getRootNavigationController] pushViewController:temp animated:YES];
-//    [temp release];
-//    [DIRECTOR pause];
+    if(self.isOpenShop)
+        return;
 }
 
 - (void)clickedMatchButton:(id)sender
 {
-    //[RCTool getRootNavigationController].topViewController.canDisplayBannerAds = NO;
+    if(self.isOpenShop)
+        return;
     
     [RCTool sendStatisticInfo:FIND_MATCH_EVENT];
     
@@ -465,6 +466,7 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)initRank
 {
+    
     if(nil == _rankSprite)
     {
         self.rankSprite = [RCRank spriteWithSpriteFrameName:@"game_center.png"];
@@ -491,7 +493,6 @@ static RCHomeScene* sharedInstance = nil;
     [RCTool sendStatisticInfo:START_MATCH_EVENT];
     
     [self unschedule:@selector(showAd:)];
-    [RCTool showAd:NO];
     
     CCLOG(@"startMatch");
     [RCTool playEffectSound:MUSIC_SWOOSH];
@@ -522,6 +523,11 @@ static RCHomeScene* sharedInstance = nil;
 }
 
 
+#pragma mark - RCShopLayerDelegate
 
+- (void)clickedResetButton:(id)token
+{
+    
+}
 
 @end

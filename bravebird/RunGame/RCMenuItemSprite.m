@@ -13,12 +13,12 @@
 
 - (void)selected
 {
-    self.position = ccp(self.position.x,self.position.y-2);
+    self.scale += 0.1f;
 }
 
 - (void)unselected
 {
-    self.position = ccp(self.position.x,self.position.y+2);
+    self.scale -= 0.1f;
 }
 
 @end

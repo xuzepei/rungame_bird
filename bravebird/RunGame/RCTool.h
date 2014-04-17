@@ -124,4 +124,15 @@
 #pragma mark - 获取匹配赛管道布置地图
 + (NSArray*)createPipesPosition;
 
+#pragma mark - 获取角色状态
+
++ (int)getBirdStatusByType:(int)type;
++ (void)setBirdStatus:(int)status type:(int)type;
+
++ (int)getWorldStatusByType:(int)type;
++ (void)setWorldStatus:(int)status type:(int)type;
+
++ (NSDictionary*)getBirdInfo:(int)type;
++ (NSDictionary*)getWorldInfo:(int)type;
+
 @end
