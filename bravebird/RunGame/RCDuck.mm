@@ -27,6 +27,7 @@
         imageName = @"hd_fly_0_0.png";
 	if ((self = [super initWithSpriteFrameName:imageName]))
 	{
+        
         self.type = type;
         NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",nil];
         NSString* frameName = [NSString stringWithFormat:@"fly_%d_",type];
