@@ -83,17 +83,34 @@
     CCMenuItemSprite* itemSprite = (CCMenuItemSprite*)sender;
     NSLog(@"bird item,tag:%d",itemSprite.tag);
     
-    int status = [RCTool getBirdStatusByType:itemSprite.tag];
+    int status = [RCTool getBirdStatusByType:self.type];
     if(-1 == status)
     {
         NSLog(@"need buy!");
         
-        [RCTool setBirdStatus:0 type:itemSprite.tag];
-        [self updateButton];
+        NSDictionary* info = [RCTool getBirdInfo:self.type];
+        if(nil == info)
+            return;
+        
+        NSString* price = [info objectForKey:@"price"];
+        NSString* name = [info objectForKey:@"name"];
+        
+        NSString* message = [NSString stringWithFormat:@"Do you want to cost %@ coins for %@?",price,name];
+        
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Tip"
+                                                        message: message
+                                                       delegate: self
+                                              cancelButtonTitle: @"Cancel"
+                                              otherButtonTitles: @"Ok",nil];
+        alert.tag = 120;
+        [alert show];
+        [alert release];
+        
+
     }
     else if(0 == status)
     {
-        [RCTool setBirdStatus:1 type:itemSprite.tag];
+        [RCTool setBirdStatus:1 type:self.type];
         [self updateButton];
         
         for(int i = 0; i < BIRDS_NUM; i++)
@@ -130,10 +147,10 @@
 - (void)initBird
 {
     NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",nil];
-    NSString* frameName = [NSString stringWithFormat:@"fly_0_"];
+    NSString* frameName = [NSString stringWithFormat:@"fly_%d_",self.type];
     CCAnimation* flyAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.15];
     
-    NSString* imageName = @"fly_0_0.png";
+    NSString* imageName = [NSString stringWithFormat:@"fly_%d_0.png",self.type];
     CCSprite* duckSprite = [CCSprite spriteWithSpriteFrameName:imageName];
     CGFloat offset_x = 30.0f;
     if([RCTool isIpadMini])
@@ -172,7 +189,7 @@
         CGFloat offset_y = 66.0f;
         if([RCTool isIpadMini])
         {
-            offset_x = 100.0f;
+            offset_x = 110.0f;
             offset_y = 132.0f;
         }
         label.position = ccp(offset_x,offset_y);
@@ -190,11 +207,63 @@
         offset_y = 30.0f;
         if([RCTool isIpadMini])
         {
-            offset_x = 100.0f;
+            offset_x = 110.0f;
             offset_y = 60.0f;
         }
         label.position = ccp(offset_x,offset_y);
         [self addChild:label];
+    }
+}
+
+#pragma mark - Buy
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(120 == alertView.tag)
+    {
+        NSLog(@"buttonIndex:%d",buttonIndex);
+        if(1 == buttonIndex)
+        {
+            int coin_num = [RCTool getRecordByType:RT_COIN];
+            
+            NSDictionary* info = [RCTool getBirdInfo:self.type];
+            if(nil == info)
+                return;
+            
+            int price = [[info objectForKey:@"price"] intValue];
+            
+            if(price > coin_num)
+            {
+                NSString* message = [NSString stringWithFormat:@"Coin is not enough,do you want to buy?"];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Tip"
+                                                                message: message
+                                                               delegate: self
+                                                      cancelButtonTitle: @"Cancel"
+                                                      otherButtonTitles: @"Buy",nil];
+                alert.tag = 121;
+                [alert show];
+                [alert release];
+            }
+            else{
+                
+                [RCTool setRecordByType:RT_COIN value:(coin_num - price)];
+                [RCTool setBirdStatus:0 type:self.type];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:COIN_CHANGED_NOTIFICATION object:nil];
+                
+                [self updateButton];
+            }
+            
+        }
+        
+    }
+    else if(121 == alertView.tag)
+    {
+        if(1 == buttonIndex)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:BUY_COIN_NOTIFICATION object:nil];
+        }
     }
 }
 

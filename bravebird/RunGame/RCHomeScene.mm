@@ -8,7 +8,7 @@
 
 #import "RCHomeScene.h"
 #import "RCGameScene.h"
-#import "RCGameSceneParallaxBackground.h"
+
 #import "CCAnimation+Helper.h"
 #import "RCMenuItemSprite.h"
 #import "RCMatchGameScene.h"
@@ -43,6 +43,8 @@ static RCHomeScene* sharedInstance = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMyScore:) name:MYSCORE_NOTIFICATION object:nil];
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(startMatch:) name:STARTMATCH_NOTIFICATION object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coinChanged:) name:COIN_CHANGED_NOTIFICATION object:nil];
         
         //[RCTool getRootNavigationController].topViewController.canDisplayBannerAds = YES;
         
@@ -95,6 +97,8 @@ static RCHomeScene* sharedInstance = nil;
     self.coinLabel = nil;
     
     self.rankSprite = nil;
+    
+    self.parallaxBg = nil;
     
     sharedInstance = nil;
     
@@ -313,18 +317,18 @@ static RCHomeScene* sharedInstance = nil;
 - (void)initParallaxBackground
 {
     //设置背景
-    NSString* imageName = [NSString stringWithFormat:@"bg_%d.png",[RCTool randomByType:RDM_BG]];
+    NSString* imageName = [NSString stringWithFormat:@"bg_%d.png",[RCTool getCurrentWorldType]];
     CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:imageName];
-    CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
+    self.bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
 
-    [RCTool resizeSprite:bgSprite toWidth:WIN_SIZE.width toHeight:WIN_SIZE.height];
+    [RCTool resizeSprite:self.bgSprite toWidth:WIN_SIZE.width toHeight:WIN_SIZE.height];
 
-    bgSprite.anchorPoint = ccp(0,0);
-    bgSprite.position = ccp(0,0);
-    [self addChild:bgSprite z:0];
+    self.bgSprite.anchorPoint = ccp(0,0);
+    self.bgSprite.position = ccp(0,0);
+    [self addChild:self.bgSprite z:0];
     
-    RCGameSceneParallaxBackground* parallaxBg = [RCGameSceneParallaxBackground node];
-    [self addChild:parallaxBg z:1];
+    self.parallaxBg = [RCGameSceneParallaxBackground node];
+    [self addChild:self.parallaxBg z:1];
 }
 
 
@@ -356,14 +360,14 @@ static RCHomeScene* sharedInstance = nil;
 - (void)initDuck
 {
     NSArray* indexArray = [NSArray arrayWithObjects:@"0",@"1",@"2",nil];
-    NSString* frameName = [NSString stringWithFormat:@"fly_0_"];
+    NSString* frameName = [NSString stringWithFormat:@"fly_%d_",[RCTool getCurrentBirdType]];
     if([RCTool isIpad] && NO == [RCTool isIpadMini])
-        frameName = [NSString stringWithFormat:@"hd_fly_0_"];
+        frameName = [NSString stringWithFormat:@"hd_fly_%d_",[RCTool getCurrentBirdType]];
     CCAnimation* flyAnimation = [CCAnimation animationWithFrame:frameName indexArray:indexArray delay:0.15];
     
-    NSString* imageName = @"fly_0_0.png";
+    NSString* imageName = [NSString stringWithFormat:@"fly_%d_0.png",[RCTool getCurrentBirdType]];;
     if([RCTool isIpad] && NO == [RCTool isIpadMini])
-        imageName = @"hd_fly_0_0.png";
+        imageName = [NSString stringWithFormat:@"hd_fly_%d_0.png",[RCTool getCurrentBirdType]];
     self.duckSprite = [CCSprite spriteWithSpriteFrameName:imageName];
     self.duckSprite.position = ccp(WIN_SIZE.width/2.0, WIN_SIZE.height - [RCTool getValueByHeightScale:250]);
     [self addChild:self.duckSprite z:20];
@@ -404,13 +408,13 @@ static RCHomeScene* sharedInstance = nil;
     NSString* medalImageName = nil;
     int score = [RCTool getRecordByType:RT_BEST];
     if(score >= 40)
-        medalImageName = @"platinum_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_3",[RCTool getCurrentBirdType]];
     else if(score >= 30)
-        medalImageName = @"gold_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_2",[RCTool getCurrentBirdType]];
     else if(score >= 20)
-        medalImageName = @"silver_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_1",[RCTool getCurrentBirdType]];
     else if(score >= 10)
-        medalImageName = @"bronze_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_0",[RCTool getCurrentBirdType]];
     
     if([medalImageName length])
     {
@@ -460,6 +464,17 @@ static RCHomeScene* sharedInstance = nil;
     self.coinLabel.position = ccp([RCTool getValueByHeightScale:46], WIN_SIZE.height - [RCTool getValueByHeightScale:77]);
     [self addChild:self.coinLabel z:20];
     [self.coinLabel setString:[NSString stringWithFormat:@"%d",count]];
+}
+
+- (void)updateCoin:(int)count
+{
+    if(self.coinLabel)
+        [self.coinLabel setString:[NSString stringWithFormat:@"%d",count]];
+}
+
+- (void)coinChanged:(NSNotification*)noti
+{
+    [self updateCoin:[RCTool getRecordByType:RT_COIN]];
 }
 
 #pragma mark - Rank
@@ -527,7 +542,32 @@ static RCHomeScene* sharedInstance = nil;
 
 - (void)clickedResetButton:(id)token
 {
+    if(self.duckSprite)
+    {
+        [self.duckSprite stopAllActions];
+        [self.duckSprite removeFromParentAndCleanup:YES];
+    }
     
+    if(self.titleSprite)
+    {
+        [self.titleSprite stopAllActions];
+        [self.titleSprite removeFromParentAndCleanup:YES];
+    }
+    
+    if(self.bgSprite)
+    {
+        [self.bgSprite removeFromParentAndCleanup:YES];
+    }
+    
+    if(self.parallaxBg)
+    {
+        [self.parallaxBg removeFromParentAndCleanup:YES];
+    }
+    
+    [self initParallaxBackground];
+    [self initTitle];
+    [self initDuck];
+
 }
 
 @end

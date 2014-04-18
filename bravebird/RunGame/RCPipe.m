@@ -160,11 +160,7 @@
     
     if(self.isAngry || self.isRotated)
     {
-        NSString* imageName = @"pipe_3.png";
-        if(NO == [RCTool isOpenAll])
-            imageName = @"pipe_7.png";
-            
-        [self setImageBySpriteFrameName:imageName];
+        [self setImageBySpriteFrameName:[NSString stringWithFormat:@"pipe_%d_0.png",self.type]];
     }
     else
     {

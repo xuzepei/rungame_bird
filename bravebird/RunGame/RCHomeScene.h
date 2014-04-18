@@ -13,6 +13,7 @@
 #import "RCLabelAtlas.h"
 #import "RCCoin.h"
 #import "RCRank.h"
+#import "RCGameSceneParallaxBackground.h"
 
 
 @interface RCHomeScene : CCLayer<GKLeaderboardViewControllerDelegate,GKGameCenterControllerDelegate,UIActionSheetDelegate> {
@@ -34,6 +35,7 @@
 @property(assign)long gc_rank;
 @property(nonatomic,retain)RCRank* rankSprite;
 @property(assign)BOOL isOpenShop;
+@property(nonatomic,retain)RCGameSceneParallaxBackground* parallaxBg;
 
 
 

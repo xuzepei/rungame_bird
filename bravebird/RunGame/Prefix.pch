@@ -167,12 +167,16 @@ typedef enum{
 
 #define BUTTON_STATUS_CHANGE_NOTIFICATION @"BUTTON_STATUS_CHANGE_NOTIFICATION"
 
+#define BUY_COIN_NOTIFICATION @"BUY_COIN_NOTIFICATION"
+#define COIN_CHANGED_NOTIFICATION @"COIN_CHANGED_NOTIFICATION"
+
 //广告ID
 #define AD_BANNER_ID @""
 #define AD_SCREEN_ID @""
 
-//去除广告
+//IAP 产品ID
 #define REMOVE_AD_ID @"com.bravebird.removeads"
+#define BUY_1000_COINS_ID @"com.bravebird.1000coins"
 
 //UMeng 设置
 #define UMENG_APP_KEY @""
@@ -190,6 +194,9 @@ typedef enum{
 #define PURCHASE_TAG 301
 
 #define BIRDS_NUM 5
+#define WORLD_NUM 5
+
+#define REMOVE_AD_NEED_COINS 1000
 
 
 

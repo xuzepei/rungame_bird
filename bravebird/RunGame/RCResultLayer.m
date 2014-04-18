@@ -47,11 +47,6 @@
 
 - (void)initBg
 {
-    //    CGSize winSize = WIN_SIZE;
-    //    ccColor4B bgColor = {0,0,0,160};
-    //    CCLayerColor* bgColorLayer = [CCLayerColor layerWithColor:bgColor width:winSize.width height:winSize.height*5];
-    //    [self addChild:bgColorLayer z:0];
-    
     self.overSprite = [CCSprite spriteWithSpriteFrameName:@"gameover.png"];
     self.overSprite.scale = 2;
     if([RCTool isIpad] && NO == [RCTool isIpadMini])
@@ -88,13 +83,13 @@
     
     NSString* medalImageName = nil;
     if(score >= 40)
-        medalImageName = @"platinum_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_3",[RCTool getCurrentBirdType]];
     else if(score >= 30)
-        medalImageName = @"gold_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_2",[RCTool getCurrentBirdType]];
     else if(score >= 20)
-        medalImageName = @"silver_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_1",[RCTool getCurrentBirdType]];
     else if(score >= 10)
-        medalImageName = @"bronze_medal.png";
+        medalImageName = [NSString stringWithFormat:@"medal_%d_0",[RCTool getCurrentBirdType]];
     
     if([medalImageName length])
     {

@@ -22,29 +22,15 @@
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(gameover:) name:GAMEOVER_NOTIFICATION object:nil];
         
-        
-//        CGSize winSize = WIN_SIZE;
-//#ifndef DEBUG
-//        ccColor4B bgColor = {133,232,255,255};
-//        CCLayerColor* bgColorLayer = [CCLayerColor layerWithColor:bgColor width:winSize.width height:winSize.height*50];
-//        bgColorLayer.anchorPoint = ccp(0.5,0);
-//        [self addChild:bgColorLayer z:0];
-//        
         CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:@"land_0.png"];
 		self.batch = [CCSpriteBatchNode batchNodeWithTexture:spriteFrame.texture];
         [self addChild:self.batch];
         
         [self initBgObjects];
-//#endif
-        
+   
         // Initialize the array that contains the scroll factors for individual stripes.
 		_speedFactors = [[CCArray alloc] initWithCapacity:SPRITE_TYPE];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:0.1f]];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:0.2f]];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:0.3f]];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:0.5f]];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:0.7f]];
-//		[_speedFactors addObject:[NSNumber numberWithFloat:1.0f]];
+
 		[_speedFactors addObject:[NSNumber numberWithFloat:1.0f]];
 		NSAssert([_speedFactors count] == SPRITE_TYPE, @"speedFactors count does not match numStripes!");
         
@@ -102,7 +88,7 @@
     CGSize winSize = WIN_SIZE;
     
     int i = 0;
-    NSString* frameName = [NSString stringWithFormat:@"land_%d.png",[RCTool randomByType:RDM_LAND]];
+    NSString* frameName = [NSString stringWithFormat:@"land_%d.png",[RCTool getCurrentWorldType]];
     CCSprite* sprite = [CCSprite spriteWithSpriteFrameName:frameName];
     
     [RCTool resizeSprite:sprite toWidth:WIN_SIZE.width+2 toHeight:[RCTool getValueByHeightScale:80]];

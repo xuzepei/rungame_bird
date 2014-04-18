@@ -67,6 +67,9 @@ static NSString *kSureStr = @"sureTitle";
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buyCoin:) name:BUY_COIN_NOTIFICATION object:nil];
+    
     [self getAdId];
     
     UIApplication* app = [UIApplication sharedApplication];
@@ -231,6 +234,7 @@ static NSString *kSureStr = @"sureTitle";
 
 - (void)dealloc
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[SKPaymentQueue defaultQueue] removeTransactionObserver:self];
     
 	[window_ release];
@@ -266,6 +270,7 @@ static NSString *kSureStr = @"sureTitle";
     
     self.products = nil;
     self.removeAdProduct = nil;
+    self.buyCoinsProduct = nil;
     
     self.bannerAdId = nil;
     self.fullScreenAdId = nil;
@@ -958,7 +963,7 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         return;
     
     self.isLoading = YES;
-    SKProductsRequest *request= [[[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObjects:REMOVE_AD_ID,nil]] autorelease];
+    SKProductsRequest *request= [[[SKProductsRequest alloc] initWithProductIdentifiers:[NSSet setWithObjects:REMOVE_AD_ID,BUY_1000_COINS_ID,nil]] autorelease];
     request.delegate = self;
     [request start];
 }
@@ -974,7 +979,10 @@ didFailToReceiveAdWithError:(GADRequestError *)error
         if([product.productIdentifier isEqualToString:REMOVE_AD_ID])
         {
             self.removeAdProduct = product;
-            break;
+        }
+        else if([product.productIdentifier isEqualToString:BUY_1000_COINS_ID])
+        {
+            self.buyCoinsProduct = product;
         }
     }
 }
@@ -982,6 +990,33 @@ didFailToReceiveAdWithError:(GADRequestError *)error
 - (void)buyProduct
 {
     [self buyProduct:self.removeAdProduct];
+}
+
+- (void)buyCoin:(NSNotification*)noti
+{
+    if(self.isPaying)
+        return;
+    
+    if(nil == self.buyCoinsProduct)
+    {
+        if([self checkEnableIAP])
+            [self requestProductData];
+        
+        [RCTool showAlert:@"Hint" message:@"No product for purchase!"];
+        return;
+    }
+    
+    if(NO == [self checkEnableIAP])
+    {
+        [RCTool showAlert:@"Hint" message:@"Please enable In-App Purchase first!"];
+        return;
+    }
+    
+    //[RCTool showIndicator:@"Loading..." view:self.view];
+    self.isPaying = YES;
+    
+    SKPayment *payment = [SKPayment paymentWithProduct:self.buyCoinsProduct];
+    [[SKPaymentQueue defaultQueue] addPayment:payment];
 }
 
 - (void)buyProduct:(SKProduct*)product
@@ -1078,6 +1113,14 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                     
                     [RCTool showAlert:@"Purchase Successfully" message:@"The advertisement has been removed."];
                 }
+            }
+            else if([transaction.payment.productIdentifier isEqualToString:BUY_1000_COINS_ID])
+            {
+                [RCTool setRecordByType:RT_COIN value:[RCTool getRecordByType:RT_COIN] + 1000];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:COIN_CHANGED_NOTIFICATION object:nil];
+                
+                [RCTool showAlert:@"Purchase Successfully" message:@"Got 1000 coins!"];
             }
         }
     }

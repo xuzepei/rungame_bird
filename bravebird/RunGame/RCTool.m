@@ -1122,6 +1122,30 @@
     [[NSUserDefaults standardUserDefaults] synchronize];
 }
 
++ (int)getCurrentBirdType
+{
+    for(int i = 0; i < BIRDS_NUM; i++)
+    {
+        int status = [RCTool getBirdStatusByType:i];
+        if(1 == status)
+            return i;
+    }
+    
+    return 0;
+}
+
++ (int)getCurrentWorldType
+{
+    for(int i = 0; i < WORLD_NUM; i++)
+    {
+        int status = [RCTool getWorldStatusByType:i];
+        if(1 == status)
+            return i;
+    }
+    
+    return 0;
+}
+
 + (NSDictionary*)getBirdInfo:(int)type
 {
     NSString* path = [[NSBundle mainBundle] pathForResource:@"bird" ofType:@"plist"];

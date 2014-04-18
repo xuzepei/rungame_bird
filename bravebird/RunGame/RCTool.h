@@ -132,6 +132,9 @@
 + (int)getWorldStatusByType:(int)type;
 + (void)setWorldStatus:(int)status type:(int)type;
 
++ (int)getCurrentBirdType;
++ (int)getCurrentWorldType;
+
 + (NSDictionary*)getBirdInfo:(int)type;
 + (NSDictionary*)getWorldInfo:(int)type;
 

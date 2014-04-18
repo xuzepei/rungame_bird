@@ -9,6 +9,8 @@
 #import "RCShopLayer.h"
 #import "RCMenuItemSprite.h"
 
+
+
 @implementation RCShopLayer
 
 - (id)init
@@ -18,6 +20,8 @@
         self.isTouchEnabled = YES;
         
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(buttonStatusChanged:) name:BUTTON_STATUS_CHANGE_NOTIFICATION object:nil];
+        
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coinChanged:) name:COIN_CHANGED_NOTIFICATION object:nil];
         
         CGSize winSize = WIN_SIZE;
         ccColor4B bgColor = {0,0,0,200};
@@ -73,7 +77,14 @@
         self.bgSprite.scale = 1.9;
     
     self.bgSprite.anchorPoint = ccp(0.5,1);
-    self.bgSprite.position = ccp(WIN_SIZE.width/2.0,WIN_SIZE.height - [RCTool getValueByHeightScale:50]);
+    if([RCTool isIphone5])
+    {
+        self.bgSprite.position = ccp(WIN_SIZE.width/2.0,WIN_SIZE.height - [RCTool getValueByHeightScale:80]);
+    }
+    else
+    {
+        self.bgSprite.position = ccp(WIN_SIZE.width/2.0,WIN_SIZE.height - [RCTool getValueByHeightScale:50]);
+    }
     [self addChild:self.bgSprite z:0];
 }
 
@@ -95,9 +106,15 @@
     }
     else if([RCTool isIpadMini])
     {
-        offset_x = 50.0;
+        offset_x = 60.0;
         offset_y = 40.0;
     }
+    else if([RCTool isIphone5])
+    {
+        offset_x = 30.0;
+        offset_y = 30.0;
+    }
+    
     CCMenuItemSprite* menuItem = [RCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedBuyCoinButton:)];
     
     CCMenu* menu = [CCMenu menuWithItems:menuItem, nil];
@@ -119,20 +136,59 @@
         offset_x = 110;
         offset_y = 110;
     }
+    else if([RCTool isIphone5])
+    {
+        offset_y = 80.0;
+    }
+    
     menuItem = [RCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedCloseButton:)];
     menu = [CCMenu menuWithItems:menuItem, nil];
     menu.anchorPoint = ccp(0,1);
     menu.position = ccp(winSize.width - offset_x, winSize.height - offset_y);
     [self addChild: menu z:50];
     
+    BOOL b = [[NSUserDefaults standardUserDefaults] boolForKey:@"remove_ads"];
+    if(b)
+    {
+        return;
+    }
+    
+    
+    sprite = [CCSprite spriteWithSpriteFrameName:@"adblock.png"];
+    sprite.scale = 0.7;
+    offset_x = 36;
+    offset_y = 30;
+    
+    if([RCTool isIpad] && NO == [RCTool isIpadMini])
+    {
+        sprite.scale = 1.8;
+        offset_x = 40;
+        offset_y = 40.0;
+    }
+    else if([RCTool isIpadMini])
+    {
+        offset_x = 80;
+        offset_y = 80;
+    }
+    else if([RCTool isIphone5])
+    {
+        offset_x = WIN_SIZE.width - 26.0;
+        offset_y = 40.0;
+    }
+    
+    menuItem = [RCMenuItemSprite itemWithNormalSprite:sprite selectedSprite:nil target:self selector:@selector(clickedRemoveAdButton:)];
+    menu = [CCMenu menuWithItems:menuItem, nil];
+    menu.anchorPoint = ccp(0,1);
+    menu.position = ccp(offset_x, offset_y);
+    [self addChild: menu z:50];
+    
 }
 
 - (void)clickedCloseButton:(id)sender
 {
-    //if(self.delegate && [self.delegate respondsToSelector:@selector(clickedBackButton:)])
+    if(self.delegate && [self.delegate respondsToSelector:@selector(clickedResetButton:)])
     {
-        //[self.delegate clickedBackButton:nil];
-        
+        [self.delegate clickedResetButton:nil];
         [RCTool showAd:YES];
         [self removeFromParentAndCleanup:YES];
     }
@@ -141,6 +197,73 @@
 - (void)clickedBuyCoinButton:(id)sender
 {
     NSLog(@"clickedBuyCoinButton");
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:BUY_COIN_NOTIFICATION object:nil];
+}
+
+- (void)clickedRemoveAdButton:(id)sender
+{
+    NSString* message = [NSString stringWithFormat:@"Do you want to cost %d coins for removing advertisement?",REMOVE_AD_NEED_COINS];
+    
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Tip"
+                                                    message: message
+                                                   delegate: self
+                                          cancelButtonTitle: @"Cancel"
+                                          otherButtonTitles: @"Ok",nil];
+    alert.tag = 120;
+    [alert show];
+    [alert release];
+}
+
+#pragma mark - Buy
+
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+    if(120 == alertView.tag)
+    {
+        NSLog(@"buttonIndex:%d",buttonIndex);
+        if(1 == buttonIndex)
+        {
+            int coin_num = [RCTool getRecordByType:RT_COIN];
+            
+            int price = REMOVE_AD_NEED_COINS;
+            
+            if(price > coin_num)
+            {
+                NSString* message = [NSString stringWithFormat:@"Coin is not enough,do you want to buy?"];
+                
+                UIAlertView *alert = [[UIAlertView alloc] initWithTitle: @"Tip"
+                                                                message: message
+                                                               delegate: self
+                                                      cancelButtonTitle: @"Cancel"
+                                                      otherButtonTitles: @"Buy",nil];
+                alert.tag = 121;
+                [alert show];
+                [alert release];
+            }
+            else{
+                
+                [RCTool setRecordByType:RT_COIN value:(coin_num - price)];
+                [[NSNotificationCenter defaultCenter] postNotificationName:COIN_CHANGED_NOTIFICATION object:nil];
+                
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"remove_ads"];
+                [[NSUserDefaults standardUserDefaults] synchronize];
+                
+                [[NSNotificationCenter defaultCenter] postNotificationName:@"REMOVE_ALL_ADS" object:nil];
+                
+                [RCTool showAlert:@"Tip" message:@"The advertisement has been removed."];
+            }
+            
+        }
+        
+    }
+    else if(121 == alertView.tag)
+    {
+        if(1 == buttonIndex)
+        {
+            [[NSNotificationCenter defaultCenter] postNotificationName:BUY_COIN_NOTIFICATION object:nil];
+        }
+    }
 }
 
 #pragma mark -  Coin Label
@@ -155,11 +278,16 @@
     self.coinLabel.anchorPoint = ccp(0,1);
     if([RCTool isIpadMini])
     {
-        self.coinLabel.position = ccp(90,WIN_SIZE.height - 30);
+        self.coinLabel.position = ccp(100,WIN_SIZE.height - 30);
+    }
+    else if([RCTool isIphone5])
+    {
+        self.coinLabel.position = ccp(50,WIN_SIZE.height - 24);
     }
     else{
         self.coinLabel.position = ccp([RCTool getValueByWidthScale:42],WIN_SIZE.height - [RCTool getValueByHeightScale:15]);
     }
+
 
     [self addChild:self.coinLabel];
     
@@ -185,6 +313,11 @@
         else
             [self.coinLabel setString:[NSString stringWithFormat:@"%@ coin",string]];
     }
+}
+
+- (void)coinChanged:(NSNotification*)noti
+{
+    [self updateCoin:[RCTool getRecordByType:RT_COIN]];
 }
 
 #pragma mark -  Coin Label
@@ -306,15 +439,22 @@
         [_birdsArray addObject:temp];
     }
 
-    for(int i = 0; i < BIRDS_NUM; i++) {
+    for(int i = 0; i < WORLD_NUM; i++) {
         
         CGFloat height = 80.0f;
+        
+        CGFloat width = self.bgSprite.contentSize.width*self.bgSprite.scale;
         if([RCTool isIpadMini])
-            height = 120.0f;
+        {
+            height = 160.0f;
+            width = self.bgSprite.contentSize.width - 10;
+        }
         
         RCShopWorldItem* temp = [RCShopWorldItem layerWithColor:ccc4(255, 255, 255, 0) width:self.bgSprite.contentSize.width*self.bgSprite.scale height:height];
         temp.anchorPoint = ccp(0,1);
         temp.position = ccp(10, self.bgSprite.contentSize.height - i*height - 144);
+        if([RCTool isIpadMini])
+            temp.position = ccp(10, self.bgSprite.contentSize.height - i*height - 288);
         [temp initWithType:i];
         
         [_worldArray addObject:temp];

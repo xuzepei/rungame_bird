@@ -134,7 +134,7 @@ static RCGameScene* sharedInstance = nil;
     self.readySprite.position = ccp(WIN_SIZE.width/2.0, WIN_SIZE.height/2.0 + [RCTool getValueByHeightScale:80]);
     [self addChild:self.readySprite z:10];
     
-    self.tapSprite = [CCSprite spriteWithSpriteFrameName:@"tap.png"];
+    self.tapSprite = [CCSprite spriteWithSpriteFrameName:[NSString stringWithFormat:@"tap_%d.png",[RCTool getCurrentBirdType]]];
     if([RCTool isIpad] && NO == [RCTool isIpadMini])
         self.tapSprite.scale = 2 * 1.8;
     else
@@ -151,7 +151,7 @@ static RCGameScene* sharedInstance = nil;
 - (void)initParallaxBackground
 {
     //设置背景
-    NSString* imageName = [NSString stringWithFormat:@"bg_%d.png",[RCTool randomByType:RDM_BG]];
+    NSString* imageName = [NSString stringWithFormat:@"bg_%d.png",[RCTool getCurrentWorldType]];
     CCSpriteFrame* spriteFrame = [[CCSpriteFrameCache sharedSpriteFrameCache] spriteFrameByName:imageName];
     CCSprite* bgSprite = [CCSprite spriteWithSpriteFrame:spriteFrame];
     [RCTool resizeSprite:bgSprite toWidth:WIN_SIZE.width toHeight:WIN_SIZE.height];
@@ -422,7 +422,7 @@ static RCGameScene* sharedInstance = nil;
     if(self.duck)
         [self.duck removeFromParentAndCleanup:YES];
     
-    self.duck = [RCDuck duck:[RCTool randomByType:RDM_DUCK]];
+    self.duck = [RCDuck duck:[RCTool getCurrentBirdType]];
 
     self.duck.position = ccp([RCTool getValueByWidthScale:100],WIN_SIZE.height/2.0 - [RCTool getValueByWidthScale:20]);
     [self addChild:self.duck z:10];
@@ -478,7 +478,7 @@ static RCGameScene* sharedInstance = nil;
         [pipe removeFromParentAndCleanup:NO];
     [_pipeArray removeAllObjects];
     
-    int pipeType = [RCTool randomByType:RDM_PIPE];
+    int pipeType = [RCTool getCurrentWorldType];
     
     //创建Pipe
     CGFloat offset_x = WIN_SIZE.width*2;

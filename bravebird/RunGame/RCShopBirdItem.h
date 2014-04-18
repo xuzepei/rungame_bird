@@ -10,7 +10,7 @@
 #import "cocos2d.h"
 #import "RCMenuItemSprite.h"
 
-@interface RCShopBirdItem : CCLayerColor {
+@interface RCShopBirdItem : CCLayerColor<UIAlertViewDelegate> {
     
 }
 
