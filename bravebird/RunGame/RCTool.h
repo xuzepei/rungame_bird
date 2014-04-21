@@ -28,6 +28,8 @@
 + (void)showAlert:(NSString*)aTitle message:(NSString*)message;
 + (CGFloat)systemVersion;
 + (AppController*)getAppDelegate;
++ (NSString*)getAdId;
++ (NSString*)getScreenAdId;
 
 + (void)addCacheFrame:(NSString*)plistFile;
 + (void)removeCacheFrame:(NSString*)plistFile;
@@ -41,6 +43,10 @@
 
 + (int)randomByType:(int)type;
 + (UIImage*)screenshotWithStartNode:(CCNode*)startNode;
+
++ (BOOL)isRealDevice;
+
++ (NSDictionary*)parseToDictionary:(NSString*)jsonString;
 
 #pragma mark - Get Random Number
 

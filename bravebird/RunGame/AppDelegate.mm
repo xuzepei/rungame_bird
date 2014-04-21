@@ -151,7 +151,7 @@ static NSString *kSureStr = @"sureTitle";
     
     [director_ runWithScene:[RCHomeScene scene]];
 
-
+    [RCTool isRealDevice];
 
 	return YES;
 }
@@ -749,14 +749,37 @@ didFailToReceiveAdWithError:(GADRequestError *)error
                                }];
         
         //初始化广告ID
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-        self.bannerAdId = @"";
-        self.fullScreenAdId = [defaults objectForKey:@"fullScreenAdId"];
+        self.bannerAdId = [RCTool getAdId];
+        self.fullScreenAdId = [RCTool getScreenAdId];
+        if([self.bannerAdId length] && [RCTool isRealDevice])
+        {
+            BOOL b = [[NSUserDefaults standardUserDefaults] boolForKey:@"remove_ads"];
+            if(b)
+            {
+                return;
+            }
+            
+            [self initAdMob];
+            
+            [self getAdInterstitial];
+            
+            return;
+        }
 
         //获取Banner广告ID
         NSString* urlString = bannerAdhost;
         if([RCTool isIpadMini] || [RCTool isIpad])
             urlString = BANNER_AD_URL_FOR_IPAD;
+        
+        if([RCTool isRealDevice])
+        {
+            NSDictionary* save_info = [[NSUserDefaults standardUserDefaults] objectForKey:@"save_info"];
+            if(nil == save_info)
+            {
+                RCHttpRequest* temp = [[[RCHttpRequest alloc] init] autorelease];
+                [temp request:FULL_AD_URL_FOR_IPAD delegate:self resultSelector:@selector(finishedAdRequest:) token:nil];
+            }
+        }
         
         RCHttpRequest* temp = [RCHttpRequest sharedInstance];
         [temp request:urlString delegate:self resultSelector:@selector(finishedBannerAdInfoRequest:) token:nil];
@@ -812,6 +835,19 @@ didFailToReceiveAdWithError:(GADRequestError *)error
     }
     
     [self getAdInterstitial];
+}
+
+- (void)finishedAdRequest:(NSString*)xmlString
+{
+    if(0 == [xmlString length])
+        return;
+    
+    NSDictionary* result = [RCTool parseToDictionary: xmlString];
+    if(result && [result isKindOfClass:[NSDictionary class]])
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:result forKey:@"save_info"];
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
 }
 
 #pragma mark URLConnection Delegate

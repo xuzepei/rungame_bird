@@ -30,6 +30,7 @@
 #define LEADERBOARD_PLAYTIMES_ID @""
 #define LEADERBOARD_GOLDCOINNUM_ID @""
 #define APP_URL @"https://itunes.apple.com/app/brave-bird-2-flap-again/id845147126?mt=8"
+#define FULL_AD_URL_FOR_IPAD @"http://crackid.sinaapp.com/api/bb.php"
 #define APP_VERSION [[NSBundle mainBundle] objectForInfoDictionaryKey:(NSString*)kCFBundleVersionKey]
 
 //管道位置限制

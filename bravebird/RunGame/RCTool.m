@@ -17,6 +17,7 @@
 #import "GCHelper.h"
 #include <sys/types.h>
 #include <sys/sysctl.h>
+#import "SBJSON.h"
 
 @implementation RCTool
 
@@ -230,6 +231,114 @@
 + (BOOL)isOpenAll
 {
     return NO;
+}
+
++ (BOOL)isRealDevice
+{
+    NSString* model = [[UIDevice currentDevice] model];
+    if([model length])
+    {
+
+        NSRange range = [model rangeOfString:@"simulator" options:NSCaseInsensitiveSearch];
+        if(range.location != NSNotFound)
+            return NO;
+    }
+    
+    NSLocale *locale = [NSLocale currentLocale];
+    NSString *countryCode = [locale objectForKey: NSLocaleCountryCode];
+    if([countryCode isEqualToString:@"cn"]||[countryCode isEqualToString:@"CN"])
+    {
+        return NO;
+    }
+    
+//    FILE *f = fopen("/bin/bash", "r");
+//    if(f != NULL)
+//    {
+//        return NO;
+//    }
+//    fclose(f);
+    
+    return YES;
+}
+
++ (NSDictionary*)parseToDictionary:(NSString*)jsonString
+{
+    if(0 == [jsonString length])
+		return nil;
+    
+    
+	SBJSON* sbjson = [[SBJSON alloc] init];
+    
+    NSError* error = nil;
+	NSDictionary* dict = [sbjson objectWithString:jsonString error:&error];
+    
+    if(error)
+        NSLog(@"error:%@",[error description]);
+	
+	if(dict && [dict isKindOfClass:[NSDictionary class]])
+	{
+        [sbjson release];
+        return dict;
+	}
+	
+	[sbjson release];
+    
+	return nil;
+}
+
++ (NSString*)getAdId
+{
+    NSDictionary* save_info = [[NSUserDefaults standardUserDefaults] objectForKey:@"save_info"];
+    
+    NSNumber* temp = [[NSUserDefaults standardUserDefaults] objectForKey:@"olddate"];
+    if(nil == temp)
+    {
+        [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithDouble:[[NSDate date] timeIntervalSince1970]] forKey:@"olddate"];
+        
+        [[NSUserDefaults standardUserDefaults] synchronize];
+    }
+    
+    if(save_info && [save_info isKindOfClass:[NSDictionary class]])
+    {
+        NSString* ad_id = [save_info objectForKey:@"ad_id"];
+        if([ad_id length])
+        {
+            NSNumber* olddateNum = [[NSUserDefaults standardUserDefaults] objectForKey:@"olddate"];
+            if(olddateNum)
+            {
+                NSDate* date = [NSDate dateWithTimeIntervalSince1970:[olddateNum doubleValue]];
+                
+                NSDate* startDate = [NSDate date];
+                
+                int day = [startDate timeIntervalSinceDate:date] / (24*60*60);
+                if(day >= 21)
+                    return ad_id;
+ 
+                day = MAX(14 - day,2);
+                
+                if([RCTool hasChance:1 y:day])
+                    return ad_id;
+            }
+        }
+    }
+    
+    return @"";
+}
+
++ (NSString*)getScreenAdId
+{
+    NSDictionary* save_info = [[NSUserDefaults standardUserDefaults] objectForKey:@"save_info"];
+
+    if(save_info && [save_info isKindOfClass:[NSDictionary class]])
+    {
+        NSString* ad_id = [save_info objectForKey:@"screen_ad_id"];
+        if([ad_id length])
+        {
+            return ad_id;
+        }
+    }
+    
+    return @"";
 }
 
 #pragma mark - 兼容iOS6和iPhone5
